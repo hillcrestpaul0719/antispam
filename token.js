@@ -1,1 +1,1 @@
-module.exports = "<insert your token here>"
+module.exports = process.env.ANTISPAM_TOKEN

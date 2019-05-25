@@ -1,10 +1,10 @@
 const debugConfig = require("./debugConfig.js");
-let discord;
 let fakeAPI = false; // debug stub (now removed)
 const now = require("performance-now");
 const template = require("./userTemplate.js");
 const checks = require("./checks/index.js");
-const client = new discord.Client();
+const Discord = require('discord.js');
+const client = new Discord.Client();
 const token = require("./token.js"); // add token here
 let users = new Map();
 let startTime;
