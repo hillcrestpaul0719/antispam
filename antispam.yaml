@@ -1,0 +1,62 @@
+---
+apiVersion: "v1"
+kind: "Namespace"
+metadata:
+  name: "antispam"
+---
+apiVersion: "v1"
+kind: "ConfigMap"
+metadata:
+  name: "antispam-config"
+  namespace: "antispam"
+  labels:
+    app: "antispam"
+data:
+  ANTISPAM_TOKEN: "<insert your token here>"
+---
+apiVersion: "extensions/v1beta1"
+kind: "Deployment"
+metadata:
+  name: "antispam"
+  namespace: "antispam"
+  labels:
+    app: "antispam"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "antispam"
+  template:
+    metadata:
+      labels:
+        app: "antispam"
+    spec:
+      containers:
+      - name: "antispam"
+        image: "hillcrestpaul0719/antispam:v1.0.0"
+        env:
+        - name: "ANTISPAM_TOKEN"
+          valueFrom:
+            configMapKeyRef:
+              key: "ANTISPAM_TOKEN"
+              name: "antispam-config"
+---
+apiVersion: "autoscaling/v2beta1"
+kind: "HorizontalPodAutoscaler"
+metadata:
+  name: "antispam-hpa"
+  namespace: "antispam"
+  labels:
+    app: "antispam"
+spec:
+  scaleTargetRef:
+    kind: "Deployment"
+    name: "antispam"
+    apiVersion: "apps/v1beta1"
+  minReplicas: 1
+  maxReplicas: 1
+  metrics:
+  - type: "Resource"
+    resource:
+      name: "cpu"
+      targetAverageUtilization: 80
