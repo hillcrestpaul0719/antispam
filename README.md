@@ -1,5 +1,9 @@
 # Discord AntiSpam
 
+Docker image is available here: https://cloud.docker.com/repository/docker/hillcrestpaul0719/antispam
+
+## Ehhthing's README
+
 Discord spam detection and autokick.
 
 This was a project of mine, and proved to show good results (very few false positives and high detection rate.)
